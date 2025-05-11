@@ -1,4 +1,4 @@
-.wrapper {
+/* .wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,6 +11,11 @@
     font-size: 18px;
 }
 
+.input {
+    background-color: aliceblue;
+    color: black;
+}
+
 input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -18,29 +23,12 @@ input[type="text"] {
     border: 1px solid black;
     border-radius: 5px;
     font-size: 16px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #EFEFEF;
-    border: 1px solid black;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 100%;
-    max-width: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #8f8f8f;
+    background-color: aliceblue;
+    color: black;
 }
 
 .error {
     color: red;
     font-size: 12px;
     margin-bottom: 10px;
-}
+} */

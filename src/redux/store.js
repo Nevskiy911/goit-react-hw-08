@@ -1,48 +1,40 @@
-// import { configureStore, combineReducers } from "@reduxjs/toolkit";
-// import { contactsReducer } from "./contactsSlice";
-// import { filtersReducer } from "./filtersSlice";
-// import {
-//   persistStore,
-//   persistReducer,
-//   FLUSH,
-//   REHYDRATE,
-//   PAUSE,
-//   PERSIST,
-//   PURGE,
-//   REGISTER,
-// } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
-
-// const contactsPersistConfig = {
-//   key: "contacts",
-//   storage,
-//   whitelist: ["items"],
-// };
-
-// const rootReducer = combineReducers({
-//   contacts: persistReducer(contactsPersistConfig, contactsReducer),
-//   filters: filtersReducer,
-// });
-
-// export const store = configureStore({
-//   reducer: rootReducer,
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware({
-//       serializableCheck: {
-//         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-//       },
-//     }),
-// });
-
-// export const persistor = persistStore(store);
-
 import { configureStore } from "@reduxjs/toolkit";
-import contactsReducer from "./contactsSlice";
-import filtersReducer from "./filtersSlice";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { authReducer } from "./auth/slice";
+import { contactsReducer } from "./contacts/slice";
+import filterReducer from "./filters/slice";
 
+const persistConfig = {
+  key: "root-auth",
+  version: 1,
+  storage,
+  whitelist: ["token"],
+};
+
+const persistedReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
+    auth: persistedReducer,
     contacts: contactsReducer,
-    filters: filtersReducer,
+    filters: filterReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+  devTools: import.meta.env.MODE === "development",
 });
+
+export const persistor = persistStore(store);

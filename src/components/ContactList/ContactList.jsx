@@ -3,9 +3,8 @@ import {
   selectLoading,
   selectError,
   selectFilteredContacts,
-} from "../../redux/contactsSlice";
+} from "../../redux/contacts/selectors";
 import Contact from "../Contact/Contact";
-import s from "./ContactList.module.css";
 
 const ContactList = () => {
   const contacts = useSelector(selectFilteredContacts);
@@ -17,7 +16,7 @@ const ContactList = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
-      <ul className={s.list}>
+      <ul className="flex flex-wrap gap-x-[30px] gap-y-[20px]">
         {contacts.map((contact) => (
           <Contact key={contact.id} contact={contact} />
         ))}

@@ -1,26 +1,46 @@
-import "./App.css";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchContacts } from "./redux/contactsOps";
-
-import ContactForm from "./components/ContactForm/ContactForm";
-import SearchBox from "./components/SearchBox/SearchBox";
-import ContactList from "./components/ContactList/ContactList";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import ContactsPage from "./pages/ContactsPage";
+import AppBar from "./components/AppBar/AppBar";
+import React from "react";
+import Layout from "./components/Layout/Layout";
+import { refreshThunk } from "./redux/auth/operations";
+import { selectIsRefreshing } from "./redux/auth/selectors";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const dispatch = useDispatch();
-
+  const isRefreshing = useSelector(selectIsRefreshing);
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshThunk());
   }, [dispatch]);
 
-  return (
-    <div>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      <ContactList />
-    </div>
+  return isRefreshing ? (
+    <h2>Loading...</h2>
+  ) : (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute>
+                <ContactsPage />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+      </Routes>
+    </>
   );
 }
 
