@@ -25,16 +25,37 @@ export const registerThunk = createAsyncThunk(
   }
 );
 
-export const loginThunk = createAsyncThunk("login", async (body, thunkApi) => {
-  try {
-    const response = await goitApi.post("/users/login", body);
-    setAuthHeader(response.data.token);
-    return response.data;
-  } catch (error) {
-    return thunkApi.rejectWithValue(error.message);
+export const loginThunk = createAsyncThunk(
+  "auth/login",
+  async (body, thunkApi) => {
+    try {
+      const response = await goitApi.post("/users/login", body);
+      setAuthHeader(response.data.token);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
   }
-});
+);
+// export const registerThunk = createAsyncThunk('auth/register', async (body, thunkAPI) => {
+//   try {
+//     const response = await goitAPI.post('/users/signup', body);
+//     setAuthHeader(response.data.token);
+//     return response.data;
+//   } catch (error) {
+//     return thunkAPI.rejectWithValue(error.message);
+//   }
+// });
 
+// export const loginThunk = createAsyncThunk('auth/login', async (body, thunkAPI) => {
+//   try {
+//     const response = await goitAPI.post('/users/login', body);
+//     setAuthHeader(response.data.token);
+//     return response.data;
+//   } catch (error) {
+//     return thunkAPI.rejectWithValue(error.message);
+//   }
+// });
 export const logoutThunk = createAsyncThunk("logout", async (_, thunkApi) => {
   try {
     await goitApi.post("/users/logout");

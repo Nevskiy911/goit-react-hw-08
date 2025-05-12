@@ -28,8 +28,8 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="hero-content flex-col lg:flex-row-reverse">
-      <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+    <div className="flex-col lg:flex-row-reverse mt-10 ">
+      <div className="card bg-base-100 w-full max-w-sm shrink-0  border-2 border-white p-4 hover:border-gray-400 transition-colors">
         <div className="card-body">
           <form className="fieldset" onSubmit={handleSubmit}>
             <label className="label">Name:</label>
@@ -44,13 +44,17 @@ const ContactForm = () => {
             <label className="label">Number:</label>
             <input
               type="number"
-              className="input"
+              className="input validator tabular-nums"
+              required
               placeholder="Number"
+              pattern="[0-9]*"
+              minlength="4"
+              maxlength="10"
+              title="Must be min 4 and max 10 digits"
               value={number}
               onChange={(e) => setNumber(e.target.value)}
-              required
             />
-            <input />
+            <p className="validator-hint">Must be min 4 and max 10 digits</p>
             <button className="btn btn-neutral mt-4" type="submit">
               Add contact
             </button>

@@ -1,18 +1,32 @@
 import { Form, Field, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginThunk } from "../../redux/auth/operations";
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
   };
 
-  const handleSubmit = (values, options) => {
-    dispatch(loginThunk(values));
-    console.log(values);
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const resultAction = await dispatch(loginThunk(values));
+      if (loginThunk.rejected.match(resultAction)) {
+        toast.error("Login failed: " + resultAction.payload);
+      } else {
+        toast.success("Login successful!");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Unexpected error during login.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -21,9 +35,8 @@ const LoginForm = () => {
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Login now!</h1>
           <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+            We strive to create a convenient tool and are constantly developing
+            our products. We wish you a pleasant experience.
           </p>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -45,8 +58,8 @@ const LoginForm = () => {
                     className="input"
                     placeholder="Password"
                   />
-                  <div>
-                    <Link to="/register" className="link link-hover">
+                  <div className="mt-5">
+                    <Link to="/register" className="link link-hover text-lg">
                       Do you have own account? Sign UP!
                     </Link>
                   </div>

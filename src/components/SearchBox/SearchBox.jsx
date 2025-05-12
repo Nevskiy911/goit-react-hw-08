@@ -10,7 +10,7 @@ const SearchBox = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex mt-5 mb-16 ml-5">
       <label className="max-w-[350px] text-lg">
         Find contacts by name:
         <input

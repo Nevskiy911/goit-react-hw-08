@@ -13,31 +13,40 @@ const AppBar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   return (
     <header>
-      {isLoggedIn && <h2>{user.name}</h2>}
-      <nav className="flex gap-3">
-        <NavLink className={setActiveClass} to="/">
-          Home
-        </NavLink>
-        <NavLink className={setActiveClass} to="/contacts">
-          Contacts
-        </NavLink>
-        {!isLoggedIn && (
-          <>
-            <NavLink className={setActiveClass} to="/login">
-              Login
-            </NavLink>
-            <NavLink className={setActiveClass} to="/register">
-              Registration
-            </NavLink>
-          </>
-        )}
+      <div class="flex justify-center items-center">
+        {isLoggedIn && <h2>{user.name}</h2>}
+      </div>
+      <nav className="flex justify-between text-2xl mt-5 mb-3">
+        <div className="flex gap-3">
+          <NavLink className={setActiveClass} to="/">
+            Home
+          </NavLink>
+          <NavLink className={setActiveClass} to="/contacts">
+            Contacts
+          </NavLink>
+        </div>
+        <div className="flex gap-3">
+          {!isLoggedIn && (
+            <>
+              <NavLink className={setActiveClass} to="/login">
+                Login
+              </NavLink>
+              <NavLink className={setActiveClass} to="/register">
+                Registration
+              </NavLink>
+            </>
+          )}
+        </div>
+
         {isLoggedIn && (
-          <button
-            onClick={() => dispatch(logoutThunk())}
-            className="btn btn-secondary"
-          >
-            Logout
-          </button>
+          <div>
+            <button
+              onClick={() => dispatch(logoutThunk())}
+              className="btn btn-secondary"
+            >
+              Logout
+            </button>
+          </div>
         )}
       </nav>
     </header>
