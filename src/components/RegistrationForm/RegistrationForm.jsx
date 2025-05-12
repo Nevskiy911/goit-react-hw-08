@@ -1,20 +1,31 @@
 import { Form, Field, Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerThunk } from "../../redux/auth/operations";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 const RegistrationForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
   const initialValues = {
     name: "",
     email: "",
     password: "",
   };
 
-  const handleSubmit = (values, options) => {
-    console.log(values);
+  const handleSubmit = (values, actions) => {
     dispatch(registerThunk(values));
+    actions.setSubmitting(false);
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -35,7 +46,7 @@ const RegistrationForm = () => {
                   <label className="label">Name</label>
                   <Field
                     name="name"
-                    type="name"
+                    type="text"
                     className="input"
                     placeholder="Name"
                   />
@@ -55,7 +66,7 @@ const RegistrationForm = () => {
                   />
                   <div className="mt-5">
                     <Link to="/login" className="link link-hover text-lg">
-                      Do you already have account? Sign IN!
+                      Do you already have an account? Sign IN!
                     </Link>
                   </div>
                   <button type="submit" className="btn btn-neutral mt-4">
