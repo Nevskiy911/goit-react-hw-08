@@ -1,23 +1,14 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../redux/auth/selectors";
-import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
+import { selectIsLoggedIn, selectIsRefreshing } from "../redux/auth/selectors";
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = ({ component: Component, redirectTo = "/login" }) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isRefreshing = useSelector(selectIsRefreshing);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      toast.error("This is private page for logged users!");
-    }
-  }, [isLoggedIn]);
+  const shouldRedirect = !isLoggedIn && !isRefreshing;
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
-
-  return children;
+  return shouldRedirect ? <Navigate to={redirectTo} /> : Component;
 };
 
 export default PrivateRoute;

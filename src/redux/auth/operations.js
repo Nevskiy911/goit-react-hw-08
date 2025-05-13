@@ -37,25 +37,7 @@ export const loginThunk = createAsyncThunk(
     }
   }
 );
-// export const registerThunk = createAsyncThunk('auth/register', async (body, thunkAPI) => {
-//   try {
-//     const response = await goitAPI.post('/users/signup', body);
-//     setAuthHeader(response.data.token);
-//     return response.data;
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue(error.message);
-//   }
-// });
 
-// export const loginThunk = createAsyncThunk('auth/login', async (body, thunkAPI) => {
-//   try {
-//     const response = await goitAPI.post('/users/login', body);
-//     setAuthHeader(response.data.token);
-//     return response.data;
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue(error.message);
-//   }
-// });
 export const logoutThunk = createAsyncThunk("logout", async (_, thunkApi) => {
   try {
     await goitApi.post("/users/logout");
